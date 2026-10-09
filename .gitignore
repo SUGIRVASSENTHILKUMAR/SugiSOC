@@ -16,3 +16,7 @@ build/
 
 # Python packaging metadata
 *.egg-info/
+
+# SugiSOC collection state and local log data
+.collection-state/
+*.log
