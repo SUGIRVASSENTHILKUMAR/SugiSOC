@@ -10,6 +10,61 @@ The platform was developed as a learning and portfolio project focused on practi
 
 > **Project status:** Local research/lab implementation with a separately tested, private, read-only demonstration. Not a production SIEM.
 
+
+## Engineering Showcase
+
+**Start here:** Follow an authentication incident from raw evidence to an
+investigation case using SugiSOC's actual processing pipeline.
+
+- [Incident investigation walkthrough](docs/DEMO_WALKTHROUGH.md)
+- [System architecture](docs/ARCHITECTURE.md)
+- [Threat model and trust boundaries](docs/THREAT_MODEL.md)
+- [Security limitations](docs/SECURITY.md)
+
+### Detection-to-investigation workflow
+
+```mermaid
+flowchart LR
+    A["SSH authentication logs"] --> B["Ingestion and normalization"]
+    B --> C[("SQLite evidence")]
+    C --> D["Detection engine"]
+    D --> E["Evidence-linked alerts"]
+    E --> F["Case correlation"]
+    F --> G["Analyst dashboard"]
+```
+
+### Reproducible laboratory evidence
+
+| Validation | Observed result |
+| --- | --- |
+| Controlled Kali SSH investigation | 9 stored events, 1 alert, 1 case |
+| Independent synthetic dataset | 18 events, 3 alerts, 3 cases |
+| Synthetic evidence replay | No duplicate events, alerts, or cases |
+| Private read-only demo | HTTPS verified through Tailscale Serve |
+| Write protection | Rejected write requests verified |
+| Git history and working-tree secret scans | Gitleaks checks passed |
+
+**Interpretation:** These results demonstrate the tested workflow and
+specific laboratory scenarios. They do not establish production detection
+accuracy, coverage, or enterprise deployment readiness.
+
+### Demonstration availability
+
+The verified Tailscale HTTPS instance is **private** and is not accessible
+to general GitHub visitors. The repository contains the code and technical
+walkthrough, not the underlying private Kali evidence or local databases.
+
+### What I engineered
+
+- A Python pipeline for collecting and normalizing authentication evidence
+- Persistent event, alert, and correlated-case records
+- Authentication detections with evidence references and ATT&CK mappings
+- Replay-safe ingestion exercised by automated integration tests
+- A local investigation API and interactive analyst dashboard
+- An opt-in, read-only demonstration mode with regression tests
+
+**Author:** Sugirvas Senthilkumar
+
 ## Features
 
 - Authentication-log ingestion and normalized event storage
@@ -125,4 +180,4 @@ SugiSOC is an educational SOC engineering project. It is not a replacement for a
 
 Cybersecurity | SOC Analysis | Python | Defensive Security
 
-[GitHub — SUGIRVASS](https://github.com/SUGIRVASS)
+[GitHub — SUGIRVASS](https://github.com/SUGIRVASSENTHILKUMAR)
