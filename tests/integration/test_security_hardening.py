@@ -61,3 +61,41 @@ def test_private_git_file_is_not_served(local_api: str):
     with pytest.raises(HTTPError) as error:
         urlopen(local_api + "/.git/config", timeout=4)
     assert error.value.code == 404
+
+
+def test_read_only_demo_rejects_all_writes(tmp_path: Path):
+    server = ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        create_handler(tmp_path / "readonly.sqlite3", read_only=True),
+    )
+    worker = threading.Thread(target=server.serve_forever, daemon=True)
+    worker.start()
+    try:
+        base = f"http://127.0.0.1:{server.server_port}"
+
+        with urlopen(base + "/api/overview", timeout=4) as response:
+            assert response.status == 200
+            assert json.load(response)["events"] == 0
+
+        for origin in (None, base, "https://attacker.example"):
+            with pytest.raises(HTTPError) as error:
+                urlopen(post(base, origin=origin), timeout=4)
+            assert error.value.code == 405
+
+        for path in (
+            "/api/cases/example/status",
+            "/api/cases/example/notes",
+        ):
+            request = Request(
+                base + path,
+                data=b"{}",
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with pytest.raises(HTTPError) as error:
+                urlopen(request, timeout=4)
+            assert error.value.code == 405
+    finally:
+        server.shutdown()
+        worker.join(timeout=5)
+        server.server_close()

@@ -15,7 +15,7 @@ FRONTEND = ROOT / "frontend"
 MAX_BODY = 8192
 
 
-def create_handler(database: Path):
+def create_handler(database: Path, *, read_only: bool = False):
     """Build an HTTP handler bound to a particular SQLite evidence database."""
     events = EventStore(database)
     alerts = AlertStore(database)
@@ -107,6 +107,8 @@ def create_handler(database: Path):
             return self._static(path)
 
         def do_POST(self):  # noqa: N802
+            if read_only:
+                return self._json({"error": "Read-only demo"}, 405)
             parsed = urlsplit(self.path)
             path = parsed.path
             if not (path.startswith("/api/cases/") and path.endswith(("/status", "/notes"))):
@@ -145,9 +147,9 @@ def create_handler(database: Path):
     return Handler
 
 
-def serve(database: Path, port: int = 8765):
+def serve(database: Path, port: int = 8765, *, read_only: bool = False):
     """Bind only on the loopback interface; no public authentication is provided."""
-    with ThreadingHTTPServer(("127.0.0.1", port), create_handler(database)) as server:
+    with ThreadingHTTPServer(("127.0.0.1", port), create_handler(database, read_only=read_only)) as server:
         print(f"SugiSOC local dashboard: http://127.0.0.1:{port}", flush=True)
         server.serve_forever()
 
@@ -158,5 +160,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run local SugiSOC dashboard")
     parser.add_argument("--database", type=Path, default=Path(".collection-state/sugisoc.sqlite3"))
     parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument("--read-only", action="store_true")
     args = parser.parse_args()
-    serve(args.database, args.port)
+    serve(args.database, args.port, read_only=args.read_only)
