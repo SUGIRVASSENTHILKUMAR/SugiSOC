@@ -41,6 +41,8 @@ def create_handler(database: Path):
                 "/index.html": "index.html",
                 "/style.css": "style.css",
                 "/app.js": "app.js",
+                "/matrix.css": "matrix.css",
+                "/matrix.js": "matrix.js",
             }
             if name not in allowed:
                 return self._json({"error": "Not found"}, 404)

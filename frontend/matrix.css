@@ -1,0 +1,50 @@
+/* SugiSOC / Portfolio-inspired Matrix identity. Decorative only. */
+:root {
+  --bg: #030604;
+  --sidebar: #050906;
+  --surface: #090f0b;
+  --surface2: #101d13;
+  --line: #173922;
+  --muted: #9caea0;
+  --text: #edfff0;
+  --green: #00f43b;
+}
+body { background:#020402; }
+.app { position:relative; isolation:isolate; }
+#matrix-rain {
+  position:fixed; z-index:-1; pointer-events:none;
+  top:69px; left:242px; right:0; bottom:0;
+  width:calc(100% - 242px); height:calc(100vh - 69px);
+  opacity:.45;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 17%, #000 83%, transparent 100%);
+  mask-image:linear-gradient(to bottom, transparent 0%, #000 17%, #000 83%, transparent 100%);
+}
+.sidebar { background:rgba(3,8,4,.98); border-right:1px solid #164524; }
+.main { position:relative; background:transparent; }
+.topbar { background:rgba(2,7,3,.96); border-bottom-color:#163d20; }
+.content { position:relative; }
+.brand strong span, .side-label, .eyebrow, .nav.active, .link { color:var(--green); }
+.brand strong { letter-spacing:-.5px; }
+.mark { border-color:#168d36; background:#07190c; color:var(--green); box-shadow:0 0 16px #00ff4120; }
+.nav.active { background:#0a2713; box-shadow:inset 3px 0 var(--green); }
+.nav:hover { background:#102217; }
+.metric, .panel { background:rgba(7,17,10,.96); border-color:#1a3d24; box-shadow:0 6px 26px #0004; }
+.metric:hover { border-color:#276b38; }
+.metric strong { color:#ecfff0; }
+.metric.accent strong { color:var(--amber); }
+.metric:first-child strong { color:var(--green); }
+.panel-heading { background:rgba(6,15,9,.7); }
+.outline { border-color:#26713a; }
+.outline:hover { color:var(--green); box-shadow:0 0 0 1px #00ff4130; }
+.primary { background:#10692c; border-color:#21a647; }
+.primary:hover { background:#118537; }
+.online,.status-dot { background:var(--green); box-shadow:0 0 12px #00ff4166; }
+input,select,textarea { background:#050c07; border-color:#235331; }
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible { outline-color:var(--green); }
+.item { border-bottom-color:#173923; }
+.footnote { color:#8bba96; }
+.headline h1 { text-shadow:0 0 20px #00ff411a; }
+#overview .empty { background:linear-gradient(90deg,#07150b,#07150bba); }
+/* Make rain visible primarily in empty canvas, never over evidence text. */
+@media(max-width:700px){ #matrix-rain {left:0;top:155px;width:100%;height:calc(100vh - 155px);opacity:.22;} }
+@media(prefers-reduced-motion:reduce){#matrix-rain{display:none!important}}
