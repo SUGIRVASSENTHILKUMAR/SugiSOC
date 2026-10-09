@@ -111,6 +111,11 @@ def create_handler(database: Path):
             path = parsed.path
             if not (path.startswith("/api/cases/") and path.endswith(("/status", "/notes"))):
                 return self._json({"error": "Not found"}, 404)
+            # SugiSOC Phase 09 same-origin guard against cross-site browser writes.
+            origin = self.headers.get("Origin")
+            expected = f"http://127.0.0.1:{self.server.server_port}"
+            if origin is not None and origin != expected:
+                return self._json({"error": "Cross-origin write forbidden"}, 403)
             size = self.headers.get("Content-Length", "")
             if not size.isdecimal() or int(size) > MAX_BODY:
                 return self._json({"error": "Invalid body length"}, 400)
