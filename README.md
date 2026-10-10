@@ -11,6 +11,35 @@ The platform was developed as a learning and portfolio project focused on practi
 > **Project status:** Local research/lab implementation with a separately tested, private, read-only demonstration. Not a production SIEM.
 
 
+## Product Screenshots
+
+The following screenshots show the real SugiSOC interface operating on
+an isolated **synthetic authentication-event dataset**. They do not
+represent production monitoring or expose the private Kali lab evidence.
+
+### Operations overview
+
+![Operations overview: 18 synthetic events, 3 alerts and 3 cases](docs/assets/SugiSOC-Overview.png)
+
+### Investigation queue
+
+![Three correlated synthetic investigation cases](docs/assets/SugiSOC-Investigations.png)
+
+### Evidence-backed detections
+
+![Authentication detections with linked evidence IDs](docs/assets/SugiSOC-Detections.png)
+
+### Event Explorer
+
+![Normalized SSH authentication records](docs/assets/SugiSOC-Event-Explorer.png)
+
+### Investigation evidence timeline
+
+![Investigation showing six linked failed SSH authentication events](docs/assets/SugiSOC-Case-Details.png)
+
+**Demo limitation:** Investigation controls are visible in the
+read-only interface, but case-status and note-write requests are rejected.
+
 ## Engineering Showcase
 
 **Start here:** Follow an authentication incident from raw evidence to an
