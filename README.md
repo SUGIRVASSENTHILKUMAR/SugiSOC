@@ -22,6 +22,24 @@ evidence-backed alerts and 3 correlated investigation cases**.
 
 The screenshot shows the real SugiSOC application, not production telemetry.
 
+## Quick Demo
+
+Run an isolated authentication-threat scenario through the actual SugiSOC
+detection and case-correlation pipeline.
+
+```bash id="9u6xy8"
+python scripts/demo.py
+```
+
+**Expected result:** Six synthetic SSH authentication events, at least
+one evidence-backed alert, at least one correlated case, and zero new
+events, alerts or cases when the fixture is replayed.
+
+The demo uses temporary files and a documentation-only IP address.
+No SSH connections are made and no private investigation logs are used.
+
+[Full quick-demo documentation](docs/QUICK_DEMO.md)
+
 ## Engineering Showcase
 
 **Start here:** Follow an authentication incident from raw evidence to an
